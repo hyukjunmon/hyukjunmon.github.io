@@ -1,0 +1,20 @@
+---
+title: 3D Model Workspace
+tagline: 일반 카메라 사진에서 3D 모델을 재구성하고 편집하는 웹 서비스
+year: '2026'
+order: 5
+domain: ['AI', 'Backend', 'Frontend']
+stack: ['COLMAP', 'Nerfstudio', 'trimesh', 'Three.js']
+image: /projects/3d-model-workspace/main.png
+---
+
+import { ProjectFact } from '../../components/mdx';
+
+<ProjectFact period="2026.01 – 2026.02" teamSize="1명" role="웹 개발자" />
+
+## 주요 업무
+
+- COLMAP 포즈 추정 → Nerfstudio 학습 → Poisson 메시 추출 → trimesh GLB 변환 파이프라인 구현
+- 웹 서버와 처리 서버 분리, 대기/처리 중/완료/실패 4단계 상태 추적 구조 설계
+- Three.js 기반 웹 메시 에디터 구현(정점/엣지/면 모드, 라쏘·다중 선택, 정점 병합·면 압출·엣지 루프 컷)
+- 기능 탐색을 돕는 채팅 어시스턴트 구현

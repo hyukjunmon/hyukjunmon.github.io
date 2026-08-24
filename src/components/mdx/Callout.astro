@@ -1,0 +1,109 @@
+---
+interface Props {
+  type?: 'insight' | 'warning' | 'result' | 'constraint';
+}
+
+const { type = 'insight' } = Astro.props;
+
+const labels: Record<string, string> = {
+  insight: '인사이트',
+  warning: '주의',
+  result: '결과',
+  constraint: '제약',
+};
+---
+
+<aside class={`callout callout--${type}`}>
+  <p class="callout__label">
+    {
+      type === 'result' && (
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M5 12.5l4.5 4.5L19 7.5"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      )
+    }
+    {
+      type === 'constraint' && (
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="5" y="10.5" width="14" height="9.5" rx="2" stroke="currentColor" stroke-width="2" />
+          <path d="M8 10.5V7.5a4 4 0 018 0v3" stroke="currentColor" stroke-width="2" />
+        </svg>
+      )
+    }
+    {labels[type]}
+  </p>
+  <div class="callout__body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .callout {
+    margin-block: 24px;
+    padding: 16px 20px;
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-md);
+    background: var(--accent-tint);
+  }
+
+  .callout--warning {
+    border-left-color: var(--ink);
+    background: var(--chip);
+  }
+
+  .callout--result {
+    border-left-color: var(--accent-deep);
+  }
+
+  .callout--constraint {
+    border-left-color: var(--muted);
+    background: #f5f2ed;
+  }
+
+  .callout__label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent-deep);
+  }
+
+  .callout--warning .callout__label {
+    color: var(--ink);
+  }
+
+  .callout--constraint .callout__label {
+    color: var(--muted);
+  }
+
+  .callout__body {
+    margin-top: 6px;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--body-c);
+  }
+
+  .callout__body :global(> p) {
+    margin: 0;
+  }
+
+  .callout__body :global(> p + p),
+  .callout__body :global(> ul) {
+    margin-top: 8px;
+  }
+
+  .callout__body :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+interface Props {
+  beforeSrc: string;
+  beforeAlt: string;
+  afterSrc: string;
+  afterAlt: string;
+  caption?: string;
+}
+
+const { beforeSrc, beforeAlt, afterSrc, afterAlt, caption } = Astro.props;
+---
+
+<figure class="ba">
+  <div class="ba__grid">
+    <div class="ba__item">
+      <span class="ba__tag ba__tag--before">BEFORE</span>
+      <img src={beforeSrc} alt={beforeAlt} loading="lazy" />
+    </div>
+    <div class="ba__item">
+      <span class="ba__tag ba__tag--after">AFTER</span>
+      <img src={afterSrc} alt={afterAlt} loading="lazy" />
+    </div>
+  </div>
+  {caption && <figcaption class="ba__caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .ba {
+    margin-block: 32px;
+  }
+
+  .ba__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .ba__item {
+    position: relative;
+  }
+
+  .ba__item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+  }
+
+  .ba__tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    padding: 3px 12px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .ba__tag--before {
+    background: var(--muted);
+    color: #fff;
+  }
+
+  .ba__tag--after {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .ba__caption {
+    margin: 16px 0 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--body-c);
+  }
+
+  @media (max-width: 640px) {
+    .ba__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

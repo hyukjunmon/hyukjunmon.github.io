@@ -1,0 +1,44 @@
+---
+import Stat from './Stat.astro';
+
+interface StatItem {
+  value: string;
+  label: string;
+  unit?: string;
+}
+
+interface Props {
+  stats: StatItem[];
+  caption?: string;
+}
+
+const { stats, caption } = Astro.props;
+---
+
+<div class="stat-group">
+  {stats.map((item) => <Stat value={item.value} label={item.label} unit={item.unit} />)}
+  {caption && <p class="stat-group__caption">{caption}</p>}
+</div>
+
+<style>
+  .stat-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 48px;
+    margin-block: 32px;
+    padding-block: 24px;
+    border-block: 1px solid var(--hairline);
+  }
+
+  .stat-group :global(.stat) {
+    flex: 1 1 auto;
+    min-width: 120px;
+  }
+
+  .stat-group__caption {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: 13px;
+    color: var(--subtle);
+  }
+</style>

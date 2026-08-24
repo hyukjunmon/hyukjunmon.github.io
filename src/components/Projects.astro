@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import SectionHeading from './SectionHeading.astro';
+import ProjectCard from './ProjectCard.astro';
+
+const projects = await getCollection('projects');
+const sorted = projects.sort((a, b) => b.data.order - a.data.order);
+---
+
+<div class="section section--alt" id="projects">
+  <div class="container">
+    <SectionHeading title="Projects" />
+    <p class="lead fade-up">
+      문제 정의부터 해결까지의 과정을 담은 케이스 스터디입니다. 카드를 누르면 자세한 이야기를 볼 수 있어요.
+    </p>
+    <div class="grid">
+      {sorted.map((project, i) => <ProjectCard project={project} delay={(i % 2) * 90} />)}
+    </div>
+  </div>
+</div>
+
+<style>
+  .lead {
+    max-width: 620px;
+    margin-top: -16px;
+    margin-bottom: 40px;
+    font-size: 16px;
+    color: var(--muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  @media (max-width: 834px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

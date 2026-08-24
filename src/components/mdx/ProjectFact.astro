@@ -1,0 +1,71 @@
+---
+interface Props {
+  period: string;
+  teamSize: string;
+  role: string;
+}
+
+const { period, teamSize, role } = Astro.props;
+---
+
+<dl class="pfact">
+  <div class="pfact__item">
+    <dt>기간</dt>
+    <dd>{period}</dd>
+  </div>
+  <div class="pfact__item">
+    <dt>팀 규모</dt>
+    <dd>{teamSize}</dd>
+  </div>
+  <div class="pfact__item">
+    <dt>역할</dt>
+    <dd>{role}</dd>
+  </div>
+</dl>
+
+<style>
+  .pfact {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.4fr;
+    margin-block: 32px;
+    padding: 20px 24px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+  }
+
+  .pfact__item + .pfact__item {
+    padding-left: 24px;
+    border-left: 1px solid var(--hairline);
+  }
+
+  dt {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  dd {
+    margin: 6px 0 0;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  @media (max-width: 640px) {
+    .pfact {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .pfact__item + .pfact__item {
+      padding-left: 0;
+      padding-top: 14px;
+      border-left: none;
+      border-top: 1px solid var(--hairline);
+    }
+  }
+</style>

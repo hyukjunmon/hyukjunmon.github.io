@@ -1,0 +1,82 @@
+---
+interface Props {
+  columns: string[];
+  rows: (string | number)[][];
+  caption?: string;
+  highlightLastCol?: boolean;
+}
+
+const { columns, rows, caption, highlightLastCol = true } = Astro.props;
+const highlight = highlightLastCol ? columns.length - 1 : -1;
+---
+
+<div class="metrics">
+  <table>
+    <thead>
+      <tr>
+        {columns.map((col, i) => <th scope="col" class:list={[{ 'is-hl': i === highlight }]}>{col}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            {row.map((cell, i) => (
+              <td class:list={[{ 'is-hl': i === highlight }]}>{cell}</td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+  {caption && <p class="metrics__caption">{caption}</p>}
+</div>
+
+<style>
+  .metrics {
+    margin-block: 32px;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--chip);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  td {
+    padding: 12px 16px;
+    font-size: 15px;
+    color: var(--body-c);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  .is-hl {
+    color: var(--accent-deep);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .metrics__caption {
+    padding: 10px 16px;
+    border-top: 1px solid var(--hairline);
+    font-size: 13px;
+    color: var(--subtle);
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+import { profile } from '../data/profile';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© {year} {profile.name}. All rights reserved.</p>
+    <nav class="footer__links" aria-label="소셜 링크">
+      {
+        profile.socials.map((social) => (
+          <a
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {social.label}
+          </a>
+        ))
+      }
+    </nav>
+    <p class="footer__note">Built with Astro · Hosted on GitHub Pages</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--hairline);
+    background: var(--bg);
+    padding-block: 28px;
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--subtle);
+  }
+
+  .footer__links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer__links a {
+    color: var(--muted);
+    transition: color 0.2s ease;
+  }
+
+  .footer__links a:hover {
+    color: var(--accent);
+  }
+</style>

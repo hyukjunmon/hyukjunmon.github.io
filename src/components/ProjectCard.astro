@@ -1,0 +1,170 @@
+---
+interface Props {
+  project: any;
+  delay?: number;
+}
+const { project, delay = 0 } = Astro.props;
+const data = project.data;
+const href = data.links?.live ?? `/projects/${project.id}/`;
+const cta = data.links?.live ? '사이트 바로가기' : '자세히 보기';
+const stackPreview = data.stack.slice(0, 4);
+const restCount = data.stack.length - stackPreview.length;
+---
+
+<article class="card fade-up" style={`--delay: ${delay}ms`}>
+  <a class="card__image-link" href={href} {... data.links?.live ? { target: '_blank', rel: 'noopener noreferrer' } : {}}>
+    <figure class="card__frame">
+      <img src={data.image} alt={`${data.title} 스크린샷`} loading="lazy" width="800" height="500" />
+    </figure>
+    <div class="card__overlay">
+      <span class="card__overlay-text">{data.links?.live ? '사이트 방문' : '자세히 보기'} →</span>
+    </div>
+  </a>
+  <div class="card__body">
+    <p class="card__meta">
+      <span>{data.year}</span>
+      {data.domain.map((tag: string) => (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>{tag}</span>
+        </>
+      ))}
+    </p>
+    <h3>{data.title}</h3>
+    <p class="card__tagline">{data.tagline}</p>
+    <ul class="chips">
+      {stackPreview.map((item: string) => <li class="chip">{item}</li>)}
+      {restCount > 0 && <li class="chip chip--more">+{restCount}</li>}
+    </ul>
+  </div>
+</article>
+
+<style>
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .card__image-link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .card__image-link {
+    position: relative;
+    display: block;
+    text-decoration: none;
+  }
+
+  .card__frame {
+    margin: 0;
+    border-bottom: 1px solid var(--hairline);
+    overflow: hidden;
+    aspect-ratio: 8 / 5;
+    background: var(--bg);
+  }
+
+  .card__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .card:hover .card__frame img {
+    transform: scale(1.03);
+  }
+
+  .card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .card:hover .card__overlay {
+    opacity: 1;
+  }
+
+  .card__overlay-text {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    height: 100%;
+  }
+
+  .card__meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--subtle);
+  }
+
+  .card__status {
+    margin-left: auto;
+    background: var(--chip);
+    color: var(--muted);
+    border-radius: var(--radius-pill);
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: clamp(19px, 3vw, 22px);
+    font-weight: 700;
+  }
+
+  .card__tagline {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0;
+  }
+
+  .chip {
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--chip);
+    color: var(--muted);
+    border-radius: var(--radius-pill);
+  }
+
+  .chip--more {
+    padding: 3px 8px;
+    font-size: 11px;
+    color: var(--accent-deep);
+    background: var(--accent-tint);
+    border-color: transparent;
+    font-family: inherit;
+  }
+</style>

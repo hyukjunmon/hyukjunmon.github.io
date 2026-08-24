@@ -1,0 +1,53 @@
+---
+import { profile } from '../data/profile';
+---
+
+<div class="section section--alt" id="contact">
+  <div class="container contact">
+    <h2 class="fade-up">Contact ME</h2>
+    <p class="fade-up" style="--delay: 80ms">
+      새로운 기회에 열려 있습니다.
+    </p>
+    <div class="actions fade-up" style="--delay: 160ms">
+      <a class="btn btn--primary" href={`mailto:${profile.email}`}>이메일 보내기</a>
+      {
+        profile.socials.map((social) => (
+          <a
+            class="btn btn--ghost"
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {social.label}
+            {social.url !== '#' && ' ↗'}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .contact {
+    text-align: center;
+  }
+
+  h2 {
+    font-size: clamp(24px, 4.5vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    margin-top: 14px;
+    color: var(--muted);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 32px;
+  }
+</style>

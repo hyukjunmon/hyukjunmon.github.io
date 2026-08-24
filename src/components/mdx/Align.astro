@@ -1,0 +1,65 @@
+---
+interface Props {
+  align?: 'left' | 'center' | 'right';
+  width?: 'full' | 'narrow' | 'wide' | (string & {});
+}
+
+const { align = 'center', width = 'full' } = Astro.props;
+
+const presets = ['full', 'narrow', 'wide'];
+const isCustom = !presets.includes(width);
+const customStyle = isCustom ? `--align-w: ${width};` : undefined;
+---
+
+<div class={`align align--${align}`}>
+  <div
+    class:list={[
+      'align__inner',
+      { 'align__inner--narrow': width === 'narrow', 'align__inner--wide': width === 'wide' },
+    ]}
+    style={customStyle}
+  >
+    <slot />
+  </div>
+</div>
+
+<style>
+  .align {
+    display: flex;
+  }
+
+  .align--left {
+    justify-content: flex-start;
+  }
+
+  .align--center {
+    justify-content: center;
+  }
+
+  .align--right {
+    justify-content: flex-end;
+  }
+
+  .align__inner {
+    width: var(--align-w, 100%);
+    min-width: 0;
+  }
+
+  .align__inner--narrow {
+    width: 560px;
+    max-width: 100%;
+  }
+
+  .align__inner--wide {
+    width: min(1088px, calc(100vw - 48px));
+    margin-inline: calc((min(768px, 100vw - 48px) - min(1088px, 100vw - 48px)) / 2);
+  }
+
+  @media (max-width: 768px) {
+    .align__inner,
+    .align__inner--wide {
+      width: 100%;
+      margin-inline: 0;
+    }
+  }
+</style>

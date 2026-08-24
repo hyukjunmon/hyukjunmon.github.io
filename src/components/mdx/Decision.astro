@@ -1,0 +1,147 @@
+---
+interface Option {
+  strong: string;
+  pros: string[];
+  cons: string[];
+}
+
+interface Props {
+  title: string;
+  optionA: Option;
+  optionB: Option;
+  choice: 'A' | 'B';
+  reason: string;
+}
+
+const { title, optionA, optionB, choice, reason } = Astro.props;
+
+const options = [
+  { key: 'A' as const, ...optionA },
+  { key: 'B' as const, ...optionB },
+];
+---
+
+<div class="decision">
+  <h4 class="decision__title">{title}</h4>
+  <div class="decision__grid">
+    {
+      options.map((option) => (
+        <div class="decision__opt" class:list={[{ 'is-choice': choice === option.key }]}>
+          <p class="decision__opt-name">
+            {option.strong}
+            {choice === option.key && <span class="decision__badge">채택</span>}
+          </p>
+          <ul class="decision__list decision__list--pros">
+            {option.pros.map((item) => <li>{item}</li>)}
+          </ul>
+          <ul class="decision__list decision__list--cons">
+            {option.cons.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+  <p class="decision__reason">{reason}</p>
+</div>
+
+<style>
+  .decision {
+    margin-block: 32px;
+    padding: 20px 24px;
+    background: var(--accent-tint);
+    border-radius: var(--radius-md);
+  }
+
+  .decision__title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .decision__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .decision__opt {
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+  }
+
+  .decision__opt.is-choice {
+    border: 1px solid var(--accent);
+  }
+
+  .decision__opt-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .decision__badge {
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .decision__list {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .decision__list li {
+    position: relative;
+    margin-top: 6px;
+    padding-left: 16px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--body-c);
+  }
+
+  .decision__list--pros li::before {
+    content: '+';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .decision__list--cons li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: var(--subtle);
+  }
+
+  .decision__reason {
+    margin: 14px 0 0;
+    padding: 16px;
+    background: rgba(3, 105, 161, 0.14);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius-sm);
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--body-c);
+  }
+
+  @media (max-width: 640px) {
+    .decision__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
